@@ -150,7 +150,13 @@ bool TonTime::ton(bool xAct) {
 
 
 unsigned long TonTime::timeElapsed() const {
-    return _active ? millis() - _startTime : 0;
+    unsigned long ET =  _active ? millis() - _startTime : 0;
+    return ET;
+}
+
+unsigned long TonTime::timeSinceStart() const {
+    unsigned long ETAct = _startTime ? millis() - _startTime : 0;
+    return ETAct;
 }
 
 unsigned long TonTime::timeRemaining() const {

@@ -91,6 +91,7 @@ public:
     bool ton(bool xAct);                    ///< Q
     unsigned long timeElapsed() const;      ///< ET
     unsigned long timeRemaining() const;    ///< PT-ET
+    unsigned long timeSinceStart() const;   ///< ET + xAct
 };
 
 #endif // TONTIME_H
