@@ -72,7 +72,9 @@
 // #endif // TONTIME_H
 
 
-
+/**
+ * @brief TonTime Stile Siemens
+ */
 #ifndef TONTIME_H
 #define TONTIME_H
 
@@ -80,16 +82,15 @@
 
 class TonTime {
 private:
-    unsigned long delayTime;
-    unsigned long startTime;
-    bool active;
+    const unsigned long _delayTime;
+    unsigned long _startTime;
+    bool _active;
 
 public:
     TonTime(unsigned long delayMillis);
-    void update(bool input);
-    bool isRunning();
-    unsigned long timeElapsed();
-    unsigned long timeRemaining();
+    bool ton(bool xAct);                    ///< Q
+    unsigned long timeElapsed() const;      ///< ET
+    unsigned long timeRemaining() const;    ///< PT-ET
 };
 
-#endif
+#endif // TONTIME_H

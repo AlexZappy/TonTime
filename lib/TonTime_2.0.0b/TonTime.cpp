@@ -123,38 +123,38 @@
 
 #include "TonTime.h"
 
-TonTime::TonTime(unsigned long delayMillis) {
-    delayTime = delayMillis;
-    startTime = 0;
-    active = false;
+TonTime::TonTime(unsigned long delayMillis) 
+: _delayTime(delayMillis), _startTime(0), _active(false)
+{
 }
 
-void TonTime::update(bool input) {
-    if (input) {
-        if (!active) {
-            active = true;
-            startTime = millis();
+/**   
+    * @brief Esegue il timer TON.
+    * @param xAct Ingresso (TRUE per contare)
+    * @return Q – TRUE quando il ritardo è trascorso e finché xAct resta TRUE.
+ */
+
+bool TonTime::ton(bool xAct) {
+    if (xAct) {
+        if (!_active) {
+            _active = true;
+            _startTime = millis();
         }
     } else {
-        active = false;
-        startTime = 0;
+        _active = false;
     }
-}
 
-bool TonTime::isRunning() {
-    if (!active) return false;
-
-    unsigned long elapsed = millis() - startTime;
-    return elapsed >= delayTime;
+    bool Q = _active && (millis() - _startTime >= _delayTime);
+    return Q;
 }
 
 
-unsigned long TonTime::timeElapsed() {
-    return active ? millis() - startTime : 0;
+unsigned long TonTime::timeElapsed() const {
+    return _active ? millis() - _startTime : 0;
 }
 
-unsigned long TonTime::timeRemaining() {
-    if (!active) return delayTime;
-    unsigned long elapsed = millis() - startTime;
-    return (elapsed >= delayTime) ? 0 : delayTime - elapsed;
+unsigned long TonTime::timeRemaining() const {
+    if (!_active) return _delayTime;
+    unsigned long elapsed = millis() - _startTime;
+    return (elapsed >= _delayTime) ? 0 : _delayTime - elapsed;
 }

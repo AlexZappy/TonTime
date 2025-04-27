@@ -1,6 +1,6 @@
 {
   "name": "TonTime",
-  "version": "1.0.0",
+  "version": "2.0.0b",
   "keywords": ["timer", "TON", "PLC", "millis", "non-blocking"],
   "description": "PLC-style TON (on-delay) timer using millis(), for Arduino.",
   "authors": [
