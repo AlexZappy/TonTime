@@ -1,0 +1,112 @@
+\chapter{Ton\+Time}
+\hypertarget{md__r_e_a_d_m_e___i_t}{}\label{md__r_e_a_d_m_e___i_t}\index{TonTime@{TonTime}}
+\label{md__r_e_a_d_m_e___i_t_autotoc_md27}%
+\Hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md27}%
+
+
+\DoxyHorRuler{0}
+ {\bfseries{Ton\+Time}} è una libreria per Arduino che replica il comportamento del timer TON (ritardo all’attivazione) utilizzato nei PLC industriali. ~\newline
+ Permette di attivare un’uscita (Q) solo dopo che un ingresso è rimasto attivo per una durata prefissata, utilizzando logica non bloccante basata su {\ttfamily millis()}.
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md30}{}\doxysection{\texorpdfstring{⚙️ Funzionalità}{⚙️ Funzionalità}}\label{md__r_e_a_d_m_e___i_t_autotoc_md30}
+
+\begin{DoxyItemize}
+\item Timer in stile PLC (TON – ritardo all’attivazione)
+\item Completamente non bloccante (usa {\ttfamily millis()})
+\item Tempo di ritardo impostato nel costruttore
+\item L’uscita Q diventa {\ttfamily true} solo dopo il tempo prefissato
+\item Q resta {\ttfamily true} finché l’ingresso rimane attivo
+\item Reset immediato se l’ingresso torna {\ttfamily false}
+\item Funzioni accessorie per tempo trascorso e rimanente
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md32}{}\doxysection{\texorpdfstring{📚 Riferimento API}{📚 Riferimento API}}\label{md__r_e_a_d_m_e___i_t_autotoc_md32}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Metodo   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descrizione    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Metodo   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descrizione    }\\\cline{1-2}
+\endhead
+{\ttfamily Ton\+Time(delay\+Ms)}   &Costruttore\+: imposta il tempo di ritardo in millisecondi    \\\cline{1-2}
+{\ttfamily bool ton(bool x\+Act)}   &Chiamare ripetutamente; restituisce {\ttfamily true} (Q) quando il ritardo è scaduto    \\\cline{1-2}
+{\ttfamily time\+Elapsed()}   &Ritorna il tempo trascorso (in ms) da quando l’ingresso è diventato {\ttfamily true}    \\\cline{1-2}
+{\ttfamily time\+Remaining()}   &Ritorna il tempo rimanente (in ms) allo scadere    \\\cline{1-2}
+{\ttfamily time\+Since\+On()}   &Ritorna il tempo da quando Q è diventato {\ttfamily true} (0 se Q è {\ttfamily false})   \\\cline{1-2}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md34}{}\doxysection{\texorpdfstring{🧪 Esempio base}{🧪 Esempio base}}\label{md__r_e_a_d_m_e___i_t_autotoc_md34}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <TonTime.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ btn\ =\ 2;}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ led\ =\ 13;}
+\DoxyCodeLine{}
+\DoxyCodeLine{TonTime\ ton(3000);\ \textcolor{comment}{//\ 3\ secondi}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ setup()\ \{}
+\DoxyCodeLine{\ \ pinMode(btn,\ INPUT\_PULLUP);}
+\DoxyCodeLine{\ \ pinMode(led,\ OUTPUT);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ loop()\ \{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{bool}\ q\ =\ ton.ton(digitalRead(btn)\ ==\ LOW);}
+\DoxyCodeLine{\ \ digitalWrite(led,\ q);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md36}{}\doxysection{\texorpdfstring{📂 Esempi inclusi}{📂 Esempi inclusi}}\label{md__r_e_a_d_m_e___i_t_autotoc_md36}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Cartella esempio   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descrizione    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Cartella esempio   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descrizione    }\\\cline{1-2}
+\endhead
+{\ttfamily Ton\+Time\+\_\+\+Quick\+Start}   &Esempio minimo con pulsante e LED    \\\cline{1-2}
+{\ttfamily Ton\+Time\+\_\+\+Basics\+\_\+\+Led}   &Mostra anche {\ttfamily time\+Elapsed()} e {\ttfamily time\+Since\+On()} con output su Serial    \\\cline{1-2}
+{\ttfamily Ton\+Time\+\_\+\+Fade}   &Usa {\ttfamily time\+Elapsed()} per sfumare un LED in PWM    \\\cline{1-2}
+{\ttfamily Ton\+Time\+\_\+\+Self\+Test}   &Esegue una serie di test automatici per validare il comportamento del timer   \\\cline{1-2}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md38}{}\doxysection{\texorpdfstring{🛠️ Installazione}{🛠️ Installazione}}\label{md__r_e_a_d_m_e___i_t_autotoc_md38}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md39}{}\doxysubsection{\texorpdfstring{Arduino IDE}{Arduino IDE}}\label{md__r_e_a_d_m_e___i_t_autotoc_md39}
+
+\begin{DoxyEnumerate}
+\item Scarica o clona la repo come {\ttfamily .zip}
+\item Estrai nella cartella {\ttfamily Arduino/libraries}
+\item Riavvia l’\+IDE
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md40}{}\doxysubsection{\texorpdfstring{Platform\+IO}{Platform\+IO}}\label{md__r_e_a_d_m_e___i_t_autotoc_md40}
+Aggiungi nel tuo {\ttfamily platformio.\+ini}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{lib\_deps\ =\ }
+\DoxyCodeLine{\ \ https://github.com/YourUsername/TonTime.git}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e___i_t_autotoc_md42}{}\doxysection{\texorpdfstring{📄 Licenza}{📄 Licenza}}\label{md__r_e_a_d_m_e___i_t_autotoc_md42}
+Distribuita sotto licenza {\bfseries{MIT}} ~\newline
+ Autore\+: \href{https://github.com/AlexZappy}{\texttt{ Alex\+Zappy}}
+
+\DoxyHorRuler{0}
+ 

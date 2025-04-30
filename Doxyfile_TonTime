@@ -1,4 +1,4 @@
-# Doxyfile configurato per il progetto TonTime
+# Doxygen File
 
 PROJECT_NAME           = "TonTime"
 OUTPUT_DIRECTORY       = docs
@@ -6,7 +6,7 @@ CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = YES
 RECURSIVE              = YES
-INPUT                  = lib/TonTime_1.0.0b
+INPUT                  = ./src
 FILE_PATTERNS          = *.cpp *.h
 GENERATE_HTML          = YES
 HTML_OUTPUT            = html
@@ -14,4 +14,4 @@ GENERATE_LATEX         = NO
 QUIET                  = NO
 GENERATE_TREEVIEW      = YES
 FULL_PATH_NAMES        = NO
-STRIP_FROM_PATH        = lib/TonTime
+STRIP_FROM_PATH        = ./src

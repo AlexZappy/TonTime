@@ -1,0 +1,113 @@
+\chapter{Ton\+Time}
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{TonTime@{TonTime}}
+\label{md__r_e_a_d_m_e_autotoc_md10}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md10}%
+
+
+\DoxyHorRuler{0}
+
+
+{\bfseries{Ton\+Time}} is an Arduino library that replicates the TON (on-\/delay) timer logic found in industrial PLCs. It enables you to trigger an output only after an input has remained active for a fixed duration, using non-\/blocking {\ttfamily millis()} logic
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysection{\texorpdfstring{⚙️ Features}{⚙️ Features}}\label{md__r_e_a_d_m_e_autotoc_md13}
+
+\begin{DoxyItemize}
+\item PLC-\/style TON (on-\/delay) timer logic
+\item Fully non-\/blocking (uses {\ttfamily millis()})
+\item Delay time set at construction
+\item Output Q becomes {\ttfamily true} only after the preset time has elapsed
+\item Output remains {\ttfamily true} while the input stays high
+\item Resets immediately when the input drops (unless latch mode is implemented)
+\item Provides utility functions to track elapsed and remaining time
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md15}{}\doxysection{\texorpdfstring{📚 API Reference}{📚 API Reference}}\label{md__r_e_a_d_m_e_autotoc_md15}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Method   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Method   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-2}
+\endhead
+{\ttfamily Ton\+Time(delay\+Ms)}   &Constructor. Sets the preset delay in milliseconds    \\\cline{1-2}
+{\ttfamily bool ton(bool x\+Act)}   &Call repeatedly. Returns {\ttfamily true} (Q) when time has elapsed    \\\cline{1-2}
+{\ttfamily time\+Elapsed()}   &Returns time in ms since input became active (x\+Act = true)    \\\cline{1-2}
+{\ttfamily time\+Remaining()}   &Returns time remaining before output Q becomes {\ttfamily true}    \\\cline{1-2}
+{\ttfamily time\+Since\+On()}   &Returns ms since Q became {\ttfamily true}, or 0 if Q is false   \\\cline{1-2}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md17}{}\doxysection{\texorpdfstring{🧪 Basic Example}{🧪 Basic Example}}\label{md__r_e_a_d_m_e_autotoc_md17}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <TonTime.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ btn\ =\ 2;}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ led\ =\ 13;}
+\DoxyCodeLine{}
+\DoxyCodeLine{TonTime\ ton(3000);\ \textcolor{comment}{//\ 3\ secondi}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ setup()\ \{}
+\DoxyCodeLine{\ \ pinMode(btn,\ INPUT\_PULLUP);}
+\DoxyCodeLine{\ \ pinMode(led,\ OUTPUT);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void}\ loop()\ \{}
+\DoxyCodeLine{\ \ \textcolor{keywordtype}{bool}\ q\ =\ ton.ton(digitalRead(btn)\ ==\ LOW);}
+\DoxyCodeLine{\ \ digitalWrite(led,\ q);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md19}{}\doxysection{\texorpdfstring{📂 Included Examples}{📂 Included Examples}}\label{md__r_e_a_d_m_e_autotoc_md19}
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Example folder   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Example folder   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-2}
+\endhead
+{\ttfamily Ton\+Time\+\_\+\+Quick\+Start}   &Minimal working example with button and LED    \\\cline{1-2}
+{\ttfamily Ton\+Time\+\_\+\+Basics\+\_\+\+Led}   &Uses {\ttfamily time\+Elapsed()} and {\ttfamily time\+Since\+On()} to show internal state via Serial    \\\cline{1-2}
+{\ttfamily Ton\+Time\+\_\+\+Fade}   &Maps {\ttfamily time\+Elapsed()} to LED PWM brightness    \\\cline{1-2}
+{\ttfamily Ton\+Time\+\_\+\+Self\+Test}   &Automated self-\/test of timer behavior via Serial   \\\cline{1-2}
+\end{longtabu}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md21}{}\doxysection{\texorpdfstring{🛠️ Installation}{🛠️ Installation}}\label{md__r_e_a_d_m_e_autotoc_md21}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md22}{}\doxysubsection{\texorpdfstring{Arduino IDE}{Arduino IDE}}\label{md__r_e_a_d_m_e_autotoc_md22}
+
+\begin{DoxyEnumerate}
+\item Clone or download this repo as {\ttfamily .zip}
+\item Place it inside your {\ttfamily Arduino/libraries} folder
+\item Restart the IDE
+\end{DoxyEnumerate}\hypertarget{md__r_e_a_d_m_e_autotoc_md23}{}\doxysubsection{\texorpdfstring{Platform\+IO}{Platform\+IO}}\label{md__r_e_a_d_m_e_autotoc_md23}
+Add to your {\ttfamily platformio.\+ini}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{lib\_deps\ =\ }
+\DoxyCodeLine{\ \ https://github.com/YourUsername/TonTime.git}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md25}{}\doxysection{\texorpdfstring{📄 License}{📄 License}}\label{md__r_e_a_d_m_e_autotoc_md25}
+MIT License ~\newline
+ Created and maintained by \href{https://github.com/AlexZappy}{\texttt{ Alex\+Zappy}}
+
+\DoxyHorRuler{0}
+ 
