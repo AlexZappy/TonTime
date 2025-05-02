@@ -1,93 +1,79 @@
+# TonTime – Arduino Library
 
-# TonTime
+## 📝 About (English)
 
----
+**TonTime** is an Arduino library inspired by the PLC-style TON (on-delay) timer logic.  
+It implements a non-blocking timer using `millis()`, suitable for state machines, button debouncing, and industrial-like logic.
 
-**TonTime**
- is an Arduino library that replicates the TON (on-delay) timer logic found in industrial PLCs. It enables you to trigger an output only after an input has remained active for a fixed duration, using non-blocking `millis()` logic
+### ⚙️ Features
 
----
-
-## ⚙️ Features
-
-- PLC-style TON (on-delay) timer logic
-- Fully non-blocking (uses `millis()`)
-- Delay time set at construction
-- Output Q becomes `true` only after the preset time has elapsed
-- Output remains `true` while the input stays high
-- Resets immediately when the input drops (unless latch mode is implemented)
-- Provides utility functions to track elapsed and remaining time
+- TON (on-delay) behavior
+- Non-blocking (uses `millis()`)
+- Supports multiple modes: Classic, Toggle, Retrigger
+- Utility methods: `timeElapsed()`, `timeRemaining()`, `timeSinceOn()`
+- Configurable using `setMode()` or `enableXXXMode()`
 
 ---
 
-## 📚 API Reference
+## 🇮🇹 Informazioni (Italiano)
 
-| Method               | Description                                                                 |
-|----------------------|-----------------------------------------------------------------------------|
-| `TonTime(delayMs)`   | Constructor. Sets the preset delay in milliseconds                          |
-| `bool ton(bool xAct)`| Call repeatedly. Returns `true` (Q) when time has elapsed                   |
-| `timeElapsed()`      | Returns time in ms since input became active (xAct = true)                  |
-| `timeRemaining()`    | Returns time remaining before output Q becomes `true`                       |
-| `timeSinceOn()`      | Returns ms since Q became `true`, or 0 if Q is false                        |
+**TonTime** è una libreria Arduino ispirata alla logica PLC del timer TON (ritardo all'attivazione).  
+Implementa un timer non bloccante usando `millis()`, utile per macchine a stati, gestione pulsanti, logiche industriali.
+
+### ⚙️ Caratteristiche
+
+- Comportamento TON (ritardo ON)
+- Non bloccante (`millis()`)
+- Supporta modalità multiple: Classic, Toggle, Retrigger
+- Metodi utilità: `timeElapsed()`, `timeRemaining()`, `timeSinceOn()`
+- Configurabile con `setMode()` o `enableXXXMode()`
 
 ---
 
-## 🧪 Basic Example
+## 📚 API
+
+| Method               | Description (EN)                  | Descrizione (IT)                 |
+|---------------------|---------------------------------|----------------------------------|
+| `ton(bool)`          | Executes timer logic             | Esegue la logica del timer       |
+| `setMode(flags)`     | Set operational modes            | Imposta le modalità operative    |
+| `enableToggleMode()` | Enable/disable toggle mode       | Abilita/disabilita modalità toggle |
+| `timeElapsed()`      | Elapsed time since start         | Tempo trascorso dall'avvio       |
+| `timeRemaining()`    | Remaining time to timeout        | Tempo rimanente alla scadenza    |
+| `timeSinceOn()`      | Time since Q became true         | Tempo da quando Q è true         |
+
+---
+
+## 💻 Example
 
 ```cpp
 #include <TonTime.h>
 
-const int btn = 2;
-const int led = 13;
-
-TonTime ton(3000); // 3 secondi
-
-void setup() {
-  pinMode(btn, INPUT_PULLUP);
-  pinMode(led, OUTPUT);
-}
+TonTime timer(3000);
+timer.setMode(TonTime::Classic); // or Toggle, Retrigger
 
 void loop() {
-  bool q = ton.ton(digitalRead(btn) == LOW);
-  digitalWrite(led, q);
+  bool input = digitalRead(2) == LOW;
+  bool q = timer.ton(input);
+  digitalWrite(13, q);
 }
 ```
 
 ---
 
-## 📂 Included Examples
+## 📁 Example files
 
-| Example folder            | Description                                                                 |
-|---------------------------|-----------------------------------------------------------------------------|
-| `TonTime_QuickStart`      | Minimal working example with button and LED                                 |
-| `TonTime_Basics_Led`      | Uses `timeElapsed()` and `timeSinceOn()` to show internal state via Serial  |
-| `TonTime_Fade`            | Maps `timeElapsed()` to LED PWM brightness                                 |
-| `TonTime_SelfTest`        | Automated self-test of timer behavior via Serial                            |
+examples/TonTime_AllModesDemo/: Shows Classic, Toggle, Retrigger behavior
 
 ---
 
-## 🛠️ Installation
+## Changelog
 
-### Arduino IDE
-
-1. Clone or download this repo as `.zip`
-2. Place it inside your `Arduino/libraries` folder
-3. Restart the IDE
-
-### PlatformIO
-
-Add to your `platformio.ini`:
-
-```ini
-lib_deps = 
-  https://github.com/YourUsername/TonTime.git
-```
+See [CHANGELOG.md](CHANGELOG.md) for version history.
 
 ---
 
-## 📄 License
+## License
 
-MIT License  
-Created and maintained by [AlexZappy](https://github.com/AlexZappy)
+- MIT [License](LICENSE) – Created by Alex Zappy
 
----
+- [![GitHub repo](https://img.shields.io/badge/GitHub-TonTime-blue?logo=github)](https://github.com/AlexZappy/TonTime)

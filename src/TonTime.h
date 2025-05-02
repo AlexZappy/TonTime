@@ -12,16 +12,41 @@
  #define TONTIME_H
  
  #include <Arduino.h>
- 
+ /**
+  * @brief Definizione della classe
+  * @par _delayTime ritardo impostato in millisecondi
+  * @par _startTimer Timestamp del fronte di salita di IN
+  * @par _active TRUE se il timer è in conteggio
+  * @par _q Uscita Q (privata)
+  * @par _tonTrue Timestamp di quando Q è diventata TRUE (mutable per accessor const)
+  * @par _mode Variabile per la configurazione, di defaul Classic
+  */
  class TonTime {
  private:
-     const unsigned long _delayTime;   ///< PT: ritardo impostato in millisecondi
-     unsigned long _startTimer;        ///< Timestamp del fronte di salita di IN
-     bool _active;                     ///< TRUE se il timer è in conteggio
-     bool _q = false;                  ///< Uscita Q (privata)
-     mutable unsigned long _tonTrue = 0; ///< Timestamp di quando Q è diventata TRUE (mutable per accessor const)
+     const unsigned long _delayTime;    ///< PT: ritardo impostato in millisecondi
+     unsigned long _startTimer;         ///< Timestamp del fronte di salita di IN
+     bool _active;                      ///< TRUE se il timer è in conteggio
+     bool _memActive;
+     bool _q;                           ///< Uscita Q (privata)
+     mutable unsigned long _tonTrue;    ///< Timestamp di quando Q è diventata TRUE (mutable per accessor const)
+     uint8_t _mode;                     ///< Variabile per la configurazione, di defaul Classic
+
  
  public:
+    /**
+     * @brief Modalità operative per il timer TON.
+     * 
+     * Ogni valore rappresenta una modalità attivabile tramite bitmask:
+     * - Classic: comportamento standard TON
+     * - Toggle: abilita lo spegnimento di Q con nuovo fronte xAct
+     */
+    enum TonMode {
+        Classic     = 0x01, ///< TonTime Classic
+        Toggle      = 0x02,
+        Retrigger   = 0x03,   ///< TonTime Toggle with xAct
+        // altri in futuro: Hold, Retriggerable, ecc.
+    };
+  
      /**
       * @brief Costruttore
       * @param delayMillis  preset time (PT) in millisecondi.
@@ -52,6 +77,17 @@
       * @return millisecondi; 0 se Q è FALSE.
       */
      unsigned long timeSinceOn();
+    
+    /**
+     * @brief Nuovi metodi per il set della modalità 
+     */
+
+     void setMode(uint8_t modeFlags);           ///< es: setMode(Classic | Toggle | Retrigger)
+
+     void enableToggleMode(bool enabled);       ///< shortcut semplice
+     void enableRetriggerMode(bool enabled);    ///< Abilita il modo retrigger
+     
+
  };
  
  #endif // TONTIME_H

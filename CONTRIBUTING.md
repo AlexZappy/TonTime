@@ -1,5 +1,7 @@
 # Contributing to TonTime
 
+This document is for developers or users interested in contributing to the TonTime Arduino library.
+
 First off, thanks for taking the time to contribute! 🎉
 
 Whether you’re filing an issue, proposing a feature, or opening a pull request, your help is greatly appreciated. Please follow these guidelines to make the process smooth for everyone.
