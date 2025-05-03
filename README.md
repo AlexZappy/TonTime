@@ -1,5 +1,9 @@
 # TonTime – Arduino Library
 
+![GitHub License](https://img.shields.io/github/license/AlexZappy/TonTime)
+![GitHub Release](https://img.shields.io/github/v/release/AlexZappy/TonTime)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AlexZappy/TonTime?logoColor=rgb&color=red)
+
 ## 📝 About (English)
 
 **TonTime** is an Arduino library inspired by the PLC-style TON (on-delay) timer logic.  
